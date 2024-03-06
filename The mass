@@ -1,0 +1,14 @@
+//C
+#include <stdio.h>
+int main()
+{
+    float vel,cons=0.5,enerc,mas;
+    printf("Let's calculate the mass (Kinetic Energy)\n");
+    printf("Enter the speed (Without square)");
+    scanf("%f", &vel);
+    printf("Give me the kinetic energy");
+    scanf("%f", &enerc);
+    masa=(enerc/(cons*(vel*vel)));
+    printf("The mass is: %.4f",mas);
+    return 0;
+}
