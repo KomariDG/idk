@@ -1,0 +1,85 @@
+//FUNNY
+package prueba3;
+
+import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Prueba3 extends JFrame {
+    private JTextField inputField;
+    private JButton submitButton;
+    private JProgressBar progressBar;
+
+    public Prueba3() {
+        setTitle("Guess the Number");
+        setSize(300, 150);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setLocationRelativeTo(null);
+        setLayout(new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
+
+        inputField = new JTextField(10);
+        submitButton = new JButton("Submit");
+        progressBar = new JProgressBar();
+        progressBar.setStringPainted(true);
+        progressBar.setForeground(Color.CYAN);
+
+        submitButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                int num = Integer.parseInt(inputField.getText());
+                if (num >= 1 && num <= 10) {
+                    progressBar.setValue(0);
+                    progressBar.setVisible(true);
+                    submitButton.setEnabled(false);
+
+                    new Thread(new Runnable() {
+                        public void run() {
+                            for (int i = 0; i <= 100; i++) {
+                                try {
+                                    Thread.sleep(300);
+                                    progressBar.setValue(i);
+                                } catch (InterruptedException ex) {
+                                    ex.printStackTrace();
+                                }
+                            }
+
+                            progressBar.setVisible(false);
+                            submitButton.setEnabled(true);
+                            showResult(num);
+                        }
+                    }).start();
+                } else {
+                    JOptionPane.showMessageDialog(Prueba3.this, "Please enter a number between 1 and 10");
+                }
+            }
+        });
+
+        progressBar.setVisible(false);
+
+        add(new JLabel("Think of a number from 1 to 10"));
+        add(inputField);
+        add(submitButton);
+        add(progressBar);
+    }
+
+    private void showResult(int num) {
+        JFrame resultFrame = new JFrame("Result");
+        resultFrame.setSize(300, 100);
+        resultFrame.setLocationRelativeTo(this);
+
+        JLabel resultLabel = new JLabel("Ready! The number you were thinking of is: " + num);
+        resultLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        resultFrame.add(resultLabel);
+
+        resultFrame.setVisible(true);
+    }
+
+    public static void main(String[] args) {
+        SwingUtilities.invokeLater(new Runnable() {
+            public void run() {
+                Prueba3 window = new Prueba3();
+                window.setVisible(true);
+            }
+        });
+    }
+}
